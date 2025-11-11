@@ -1,0 +1,45 @@
+body {
+  background-color: #111;
+  color: #e6e6e6;
+  font-family: Consolas, monospace;
+  padding: 40px;
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+input[type="file"],
+button {
+  background: #222;
+  color: #ddd;
+  border: 1px solid #444;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+#status {
+  margin: 8px 0;
+  color: #8be9fd;
+}
+
+#file-info {
+  color: #50fa7b;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+#transcript {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-top: 12px;
+  white-space: pre-wrap;
+  min-height: 80px;
+}
