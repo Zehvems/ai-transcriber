@@ -1,4 +1,5 @@
 import { fileInfo, setStatus, setTranscript } from "./ui.js";
+import { fakeFetch } from "./api.js";
 const form = document.getElementById("transcribe-form");
 const input = document.getElementById("input");
 const btn = document.getElementById("btn");
@@ -12,7 +13,7 @@ input.addEventListener("change", () => {
   }
 });
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!input.files[0]) {
     setStatus("File missing!");
@@ -24,14 +25,10 @@ form.addEventListener("submit", (e) => {
   formData.append("file", file);
 
   console.log(formData.get("file"));
-
-  setTimeout(() => {
-    setStatus("Przetważanie...");
-  }, 1200);
-
-  setTimeout(() => {
-    setStatus("Gotowe (mock – brak prawdziwego backendu)");
-    setTranscript("...");
-    btn.disabled = false;
-  }, 2400);
+  // TODO: integrate fakeFetch here
+  setStatus("Przetważanie...");
+  const result = await fakeFetch(formData);
+  setStatus("Gotowe (mock – brak prawdziwego backendu)");
+  setTranscript(result.text);
+  btn.disabled = false;
 });
