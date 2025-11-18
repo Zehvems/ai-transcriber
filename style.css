@@ -26,9 +26,13 @@ button:hover {
 
 #status {
   margin: 8px 0;
+}
+.ok {
   color: #8be9fd;
 }
-
+.err {
+  color: crimson;
+}
 #file-info {
   color: #50fa7b;
   font-size: 0.9rem;

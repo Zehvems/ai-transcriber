@@ -1,5 +1,11 @@
+const status = document.getElementById("status");
 export function setStatus(text) {
-  document.getElementById("status").innerText = text;
+  status.innerText = text;
+  status.className = "ok";
+}
+export function errStatus(err) {
+  status.innerText = err;
+  status.className = "err";
 }
 export function setTranscript(text) {
   document.getElementById("transcript").textContent = text;
