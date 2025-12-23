@@ -5,6 +5,24 @@ const input = document.getElementById("input");
 const btn = document.getElementById("btn");
 let file = undefined;
 let result = undefined;
+
+async function transcribe(formData) {
+  const res = await fetch("http://localhost:3000/api/transcribe", {
+    method: "POST",
+    body: formData,
+  });
+  if (res.ok) {
+    const data = await res.json();
+    if (data.ok === true) {
+      setTranscript(data.text);
+      setStatus("Done");
+    } else {
+      throw new Error("Backend ok=false");
+    }
+  } else {
+    throw new Error("HTTP not ok");
+  }
+}
 setTranscript("Waiting for file...");
 try {
   const data = await checkStatus();
@@ -31,18 +49,12 @@ form.addEventListener("submit", async (e) => {
   // TODO: tutaj później wejdzie fetch("/api/transcribe", { method: "POST", body: formData })
   const formData = new FormData();
   formData.append("file", file);
-  console.log(formData.get("file"));
+
   setStatus("Processing...");
   try {
-    result = await fakeFetch(formData);
-    if (result.ok !== true) {
-      setStatus("Error (backend res status)");
-    } else {
-      setTranscript(result.text);
-      setStatus("Gotowe (mock – brak prawdziwego backendu)");
-    }
-  } catch {
-    errStatus("Transcription failed – network error");
+    await transcribe(formData);
+  } catch (error) {
+    errStatus(error.message);
     setTranscript("");
     return;
   } finally {
