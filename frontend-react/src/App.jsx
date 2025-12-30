@@ -1,10 +1,13 @@
 import { useState } from "react";
 
-function StatusPanel({ statusText, onCheck }) {
+function StatusPanel({ statusText, onCheck, loading, error }) {
   return (
     <div>
       <p>Status: {statusText}</p>
-      <button onClick={onCheck}>Check backend</button>
+      <button onClick={onCheck} disabled={loading}>
+        Check backend
+      </button>
+      {error && <p>Error: {error}</p>}
     </div>
   );
 }

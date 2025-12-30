@@ -4,7 +4,6 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 const OpenAI = require("openai");
 const { toFile } = require("openai");
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -20,8 +19,11 @@ app.post("/api/transcribe", upload.single("file"), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ ok: false, error: "No file" });
   }
-
+  if (!process.env.OPENAI_API_KEY) {
+    return res.status(500).json({ ok: false, error: "Missing OPENAI_API_KEY" });
+  }
   try {
+    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const file = await toFile(req.file.buffer, req.file.originalname);
 
     const transcript = await client.audio.transcriptions.create({
