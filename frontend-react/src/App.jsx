@@ -27,6 +27,12 @@ function App() {
   const [backend, setBackend] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
+
+  function handleFileChange(e) {
+    const selectedFile = e.target.files[0] || null;
+    setFile(selectedFile);
+  }
 
   async function handleCheck() {
     setLoading(true);
@@ -53,6 +59,13 @@ function App() {
     <div>
       <h1>AI Transcriber</h1>
       <StatusPanel statusText={statusText} onCheck={handleCheck} />
+      <input type="file" accept="audio/*" onChange={handleFileChange} />
+      {file && (
+        <p>
+          File: {file.name} ({Math.round(file.size / 1024)} KB)
+        </p>
+      )}
+
       <TranscriptBox transcript={transcript} />
     </div>
   );
